@@ -1,0 +1,7 @@
+smplx
+pyrender
+numpy
+trimesh
+opencv-python
+matplotlib
+torch
