@@ -96,6 +96,4 @@ myrender.render_videos(
 
 ### 大概：
 
-<video width="360" height="480" controls>
-    <source src="asset/example.mp4" type="video/mp4">
-</video>
+![img](asset/example.gif)
