@@ -10,7 +10,6 @@ from classes.utils.utils import to_cpu
 
 import trimesh
 import cv2
-from PIL import Image
 from pyrender.constants import RenderFlags
 
 class PyRenSmpl:
