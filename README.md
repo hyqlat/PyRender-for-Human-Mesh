@@ -22,7 +22,8 @@ pip install -r requirements.txt
 from classes.PyRenSmpl import PyRenSmpl
 '''
 参数说明：
-smpl_model_path: path to smpl model
+	(smpl_model_path: path to smpl model)
+        (obj_file_path:path to example obj (yulei))
         save_path: path to save output result
         mv_width: meshviewer width      float
         mv_height: meshviewer height    float
@@ -42,6 +43,12 @@ smpl_model_path: path to smpl model
         gr_translate: ground translate      float(3)
         gr_extent:ground size               float(3)
         gr_color:ground color               float
+
+        is_smpl:generate mesh from smpl?        bool
+        is_gene_pic:generate picture?           bool
+        is_gene_vid:generate video?             bool
+
+        smpl_model: smpl smpl-x smpl-h
 '''
 #这些dict自己设置
 camera_dict={
@@ -66,13 +73,23 @@ input_dicts = {
         'gr_translate':[0, 0, -1.02],
         'gr_extent':[20,12,0.1],
         'gr_color':0.9,
+	'is_smpl':True,#yulei那边False
+	'is_gene_pic':False,
+	'is_gene_vid':True,
+	'smpl_model':'smpl',
     }
 myrender = PyRenSmpl(input_dicts)
 #调用
+'''
+        sequence: dict with 'poses' ('betas') ('gender') or 'vertices'
+            pose: frmae_num * smplpara_num
+	key:output file name
+        his_frame:hisory frame number
+'''
 myrender.render_videos(
 	sequence=sequence,
 	key=key,
-	smpl_model=smpl_model
+        his_frame=his_frame
 )
 
 ```
