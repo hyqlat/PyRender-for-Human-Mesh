@@ -1,4 +1,4 @@
-# PyRender for SMLP/-X/-H
+# PyRender for Human Mesh
 
 ### 需要包：
 
