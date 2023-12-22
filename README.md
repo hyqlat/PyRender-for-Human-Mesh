@@ -48,7 +48,7 @@ from classes.PyRenSmpl import PyRenSmpl
         is_gene_pic:generate picture?           bool
         is_gene_vid:generate video?             bool
 
-        smpl_model: smpl smpl-x smpl-h
+        smpl_model: smpl smplx smplh
 '''
 #这些dict自己设置
 camera_dict={
@@ -93,8 +93,6 @@ myrender.render_videos(
 )
 
 ```
-
-
 
 ### 大概：
 

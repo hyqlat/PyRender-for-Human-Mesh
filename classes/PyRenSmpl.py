@@ -43,7 +43,7 @@ class PyRenSmpl:
         is_gene_pic:generate picture?           bool
         is_gene_vid:generate video?             bool
 
-        smpl_model: smpl smpl-x smpl-h
+        smpl_model: smpl smplx smplh
         ###                 ###
         '''
         self.is_smpl = input_dicts['is_smpl']
