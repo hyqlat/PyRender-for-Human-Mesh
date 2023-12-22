@@ -167,7 +167,7 @@ class PyRenSmpl:
             self,
             sequence, 
             key,
-            his_frame
+            his_frame=10
         ):
         '''
         sequence: dict with 'poses' ('betas') ('gender') or 'vertices'
