@@ -85,17 +85,22 @@ class PyRenSmpl:
         #ground
         self.has_ground = input_dicts['render_ground']
         if self.has_ground:
-            self.gr_translate = input_dicts['gr_translate']#[0, 0, -1.02]
-            self.gr_extent = input_dicts['gr_extent']#(20,12,0.1)
-            self.gr_color = input_dicts['gr_color']
-            #
-            ground_pose = np.eye(4)
-            ground_pose[:3, 3] = np.array(self.gr_translate)#[-.6, -2.4, .3] ##x：左右 y z:高度
-            self.gr_mesh = trimesh.creation.box(extents=self.gr_extent, transform=ground_pose)
-            # t_mesh_color = np.random.uniform(size=t_mesh.faces.shape)
-            t_mesh_color = np.ones(shape=self.gr_mesh.faces.shape) * self.gr_color
-            self.gr_mesh.visual.face_colors = t_mesh_color
+            self.makeground(input_dicts)
+            
     
+    def makeground(self, input_dicts):
+        self.gr_translate = input_dicts['gr_translate']#[0, 0, -1.02]
+        self.gr_extent = input_dicts['gr_extent']#(20,12,0.1)
+        self.gr_color = input_dicts['gr_color']
+        #
+        ground_pose = np.eye(4)
+        ground_pose[:3, 3] = np.array(self.gr_translate)#[-.6, -2.4, .3] ##x：左右 y z:高度
+        self.gr_mesh = trimesh.creation.box(extents=self.gr_extent, transform=ground_pose)
+        # t_mesh_color = np.random.uniform(size=t_mesh.faces.shape)
+        t_mesh_color = np.ones(shape=self.gr_mesh.faces.shape) * self.gr_color
+        self.gr_mesh.visual.face_colors = t_mesh_color
+
+
     def gene_human_mesh_from_smpls(
             self,
             sequence, 
@@ -160,7 +165,7 @@ class PyRenSmpl:
         '''vert:frame_num * 6890 * 3'''
 
         #TODO:将从点生成face的过程写一下，将顶点赋值给self.verts_sbj，face赋值给self.faces_sbj。self.verts_sbj的形式就是 frame*6890*3的
-        _, self.faces_sbj = self.read_obj_file()
+        _, self.faces_sbj = self.read_obj_file_exam_human()
         self.verts_sbj = vert
 
     def render(
@@ -230,9 +235,9 @@ class PyRenSmpl:
             video.release()
         
 
-    def read_obj_file(self):
+    def read_obj_file_exam_human(self):
         '''
-        读取obj
+        读取人体obj
         '''
         vertices = []
         faces = []
@@ -252,3 +257,13 @@ class PyRenSmpl:
                     faces.append(face)
 
         return vertices, faces
+
+
+
+    def read_obj_mesh(
+        self,
+        path
+    ):
+        fuze_trimesh = trimesh.load(path)
+        mesh = Mesh.from_trimesh(fuze_trimesh)
+        return mesh
