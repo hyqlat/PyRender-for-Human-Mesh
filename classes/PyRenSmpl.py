@@ -51,7 +51,7 @@ class PyRenSmpl:
         if self.is_smpl:
             self.smpl_model_path = './classes/SMPL_models/'
         else:
-            self.obj_file_path = './classes/objs/human_exp.obj'
+            self.obj_file_path = './classes/objs/smpl.obj'
             
 
         self.save_path = input_dicts['save_path']
