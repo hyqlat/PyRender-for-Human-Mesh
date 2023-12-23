@@ -100,6 +100,13 @@ class PyRenSmpl:
     
     def makeground2(self, input_dicts):
         self.gr_mesh = self.read_obj_mesh('./classes/objs/ground.obj')
+
+        self.gr_translate = input_dicts['gr_translate']#[0, 0, -1.02]
+        self.gr_extent = input_dicts['gr_extent']#(20,12,0.1)
+        ground_pose = np.eye(4)
+        ground_pose[:3, 3] = np.array(self.gr_translate)
+
+        self.gr_mesh.apply_transform(ground_pose)
         self.gr_mesh.extents = input_dicts['gr_extent']
 
 
