@@ -14,6 +14,9 @@
 pip install -r requirements.txt
 ```
 
+### 数据：
+将数据下载，放入/classes/SMPL_models/和/classes/objs/
+
 ### Usage：
 
 将classes文件夹放入项目root目录（运行的根目录），需要调用处用法：
