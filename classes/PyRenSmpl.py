@@ -17,8 +17,6 @@ class PyRenSmpl:
         '''
         input_dicts:
         ### a dict contains ###
-        (smpl_model_path: path to smpl model)
-        (obj_file_path:path to example obj (yulei))
         save_path: path to save output result
         mv_width: meshviewer width      float
         mv_height: meshviewer height    float
@@ -51,9 +49,9 @@ class PyRenSmpl:
         self.is_gene_vid = input_dicts.get('is_gene_vid', True)
 
         if self.is_smpl:
-            self.smpl_model_path = input_dicts['smpl_model_path']
+            self.smpl_model_path = './classes/SMPL_models/'
         else:
-            self.obj_file_path = input_dicts['obj_file_path']
+            self.obj_file_path = './classes/objs/human_exp.obj'
             
 
         self.save_path = input_dicts['save_path']
@@ -85,7 +83,7 @@ class PyRenSmpl:
         #ground
         self.has_ground = input_dicts['render_ground']
         if self.has_ground:
-            self.makeground(input_dicts)
+            self.makeground2(input_dicts)
             
     
     def makeground(self, input_dicts):
@@ -99,6 +97,10 @@ class PyRenSmpl:
         # t_mesh_color = np.random.uniform(size=t_mesh.faces.shape)
         t_mesh_color = np.ones(shape=self.gr_mesh.faces.shape) * self.gr_color
         self.gr_mesh.visual.face_colors = t_mesh_color
+    
+    def makeground2(self, input_dicts):
+        self.gr_mesh = self.read_obj_mesh('./classes/objs/ground.obj')
+        self.gr_mesh.extents = input_dicts['gr_extent']
 
 
     def gene_human_mesh_from_smpls(

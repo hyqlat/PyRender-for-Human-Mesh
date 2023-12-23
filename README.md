@@ -22,8 +22,6 @@ pip install -r requirements.txt
 from classes.PyRenSmpl import PyRenSmpl
 '''
 参数说明：
-	(smpl_model_path: path to smpl model)
-        (obj_file_path:path to example obj (yulei))
         save_path: path to save output result
         mv_width: meshviewer width      float
         mv_height: meshviewer height    float
@@ -62,7 +60,6 @@ light_dict={
     }
 input_dicts = {
         'device':device,
-        'smpl_model_path':'./SMPL_models/',
         'save_path':cfg.result_dir + f'/{args.mode}',
         'mv_width':600,
         'mv_height':900,
