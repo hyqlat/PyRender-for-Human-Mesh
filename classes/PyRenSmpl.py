@@ -83,7 +83,7 @@ class PyRenSmpl:
         #ground
         self.has_ground = input_dicts['render_ground']
         if self.has_ground:
-            self.makeground2(input_dicts)
+            self.makeground(input_dicts)
             
     
     def makeground(self, input_dicts):
