@@ -165,3 +165,45 @@ def create_video(path, fps=30,name='movie'):
         continue
 
 
+def plot_cylinder(ax, a, b, color, radius=1.0):
+    ab = b - a
+    height = np.linalg.norm(ab)
+
+    num_points = 5
+    theta = np.linspace(0, 2 * np.pi, num_points)
+    z = np.linspace(0, height, num_points)
+    Theta, Z = np.meshgrid(theta, z)
+
+    X = radius * np.cos(Theta)
+    Y = radius * np.sin(Theta)
+    Z = Z
+
+    direction = ab / height
+    axis = np.cross(np.array([0, 0, 1]), direction)
+    axis = axis / np.linalg.norm(axis)
+    angle = np.arccos(np.dot(np.array([0, 0, 1]), direction))
+    rotation_matrix = np.cos(angle)*np.eye(3) + np.sin(angle) * np.array([[0, -axis[2], axis[1]],
+                                                               [axis[2], 0, -axis[0]],
+                                                               [-axis[1], axis[0], 0]]) + (1 - np.cos(angle)) * np.outer(axis, axis)#np.cos(angle)*
+
+    points = np.vstack((X.flatten(), Y.flatten(), Z.flatten()))
+    rotated_points = np.dot(rotation_matrix, points) + a.reshape(3, 1)
+
+    X_rotated = rotated_points[0].reshape(num_points, num_points)
+    Y_rotated = rotated_points[1].reshape(num_points, num_points)
+    Z_rotated = rotated_points[2].reshape(num_points, num_points)
+
+    ax.plot_surface(X_rotated, Y_rotated, Z_rotated, color=color, alpha=0.8)
+    
+def plot_point(ax, point, color, radius=1.0):
+    num_points = 6
+    u = np.linspace(0, 2 * np.pi, num_points)
+    v = np.linspace(0, np.pi, num_points)
+    u, v = np.meshgrid(u, v)
+    
+    x, y, z = point[0], point[1], point[2]
+    
+    x_sphere = x + radius * np.outer(np.cos(u), np.sin(v))
+    y_sphere = y + radius * np.outer(np.sin(u), np.sin(v))
+    z_sphere = z + radius * np.outer(np.ones(np.size(u)), np.cos(v))
+    ax.plot_surface(x_sphere, y_sphere, z_sphere, color=color, alpha = 0.9)

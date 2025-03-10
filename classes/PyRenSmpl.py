@@ -177,7 +177,7 @@ class PyRenSmpl:
         _, self.faces_sbj = self.read_obj_file_exam_human()
         self.verts_sbj = vert
 
-    def render(
+    def render_videos(
             self,
             sequence, 
             key,
