@@ -276,3 +276,58 @@ class PyRenSmpl:
         fuze_trimesh = trimesh.load(path)
         mesh = Mesh.from_trimesh(fuze_trimesh)
         return mesh
+    
+    def render_naive_smpl(
+        self,  
+        betas, 
+        poses
+    ):                
+        model = smplx.create(model_path=self.smpl_model_path,
+                            model_type='smpl',
+                            gender='male',
+                            # num_pca_comps=24,
+                            # v_template=sbj_vtemp,
+                            use_pca=False,
+                            batch_size=1,
+                            ext='pkl').to(self.device)
+
+        import torch          
+        #betas = torch.randn([1, model.num_betas], dtype=torch.float32)
+        betas = betas.to(self.device)#torch.zeros([1, model.num_betas], dtype=torch.float32, device=self.device)  
+        if poses is not None:
+            poses = poses.to(self.device)
+        else:
+            poses = torch.zeros(1, 72).to(self.device)
+        #print(poses)
+        output = model(
+        betas=betas, 
+        body_pose=poses,
+        #expression=expression, 
+        return_verts=True, 
+        return_full_pose=True
+        )
+        vertices = output.vertices.detach().cpu().numpy().squeeze()
+        vertices = vertices[:,[0, 2, 1]]
+        vertices[:, 1] = -vertices[:,1]
+        #print(vertices.shape)
+
+        s_mesh = Mesh(vertices=vertices, faces=model.faces, vc=colors['gold'], smooth=True)
+
+        if self.has_ground:
+            self.mv.set_static_meshes([s_mesh, self.gr_mesh])
+        else:
+            self.mv.set_static_meshes([s_mesh])
+
+        flags = RenderFlags.RGBA | RenderFlags.SHADOWS_DIRECTIONAL
+        res, _ = self.mv.viewer.render(self.mv.scene, flags=flags)
+
+        img = res[:,:,[0,1,2]]#[:,:,[2,1,0]]
+
+        #print(img, img.dtype)
+        from PIL import Image
+        if img.dtype != np.uint8:
+            img = img.astype(np.uint8)
+
+        image = Image.fromarray(img, 'RGB')
+        output_path = 'output_image.jpg'
+        image.save(output_path, 'JPEG')
