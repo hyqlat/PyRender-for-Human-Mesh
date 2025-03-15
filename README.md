@@ -76,7 +76,7 @@ input_dicts = {
         'gr_translate':[0, 0, -1.02],
         'gr_extent':[20,12,0.1],
         'gr_color':0.9,
-	'is_smpl':True,#yulei那边False
+	'is_smpl':True,
 	'is_gene_pic':False,
 	'is_gene_vid':True,
 	'smpl_model':'smpl',
